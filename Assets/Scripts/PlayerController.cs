@@ -9,13 +9,11 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
 
     private Rigidbody2D rb;
-    private Animator pAni;
     private bool isGrounded;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        pAni = GetComponent<Animator>();
     }
     private void Update()
     {
@@ -33,7 +31,6 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            pAni.SetTrigger("JumpAction");
         }
 
         float direction = Input.GetAxis("Horizontal");
@@ -50,6 +47,16 @@ public class PlayerController : MonoBehaviour
         }
         else
             myAnimator.SetBool("move", false);
+
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            myAnimator.SetBool("JumpAction", true);
+   
+        }
+        else
+            myAnimator.SetBool("JumpAction", false);
+
+
 
         transform.Translate(Vector3.right*direction*moveSpeed*Time.deltaTime);
     }
