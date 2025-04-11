@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStart : MonoBehaviour
+public class StorySkip : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,8 +15,9 @@ public class GameStart : MonoBehaviour
     {
         
     }
-    public void GameStartt()
+    public void SSkip()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Story");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Stage1");
     }
+
 }
