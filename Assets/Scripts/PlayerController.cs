@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
+
         float direction = Input.GetAxis("Horizontal");
 
         if (direction > 0)
@@ -51,12 +52,9 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            myAnimator.SetBool("JumpAction", true);
-   
-        }
-        else
-            myAnimator.SetBool("JumpAction", false);
+            myAnimator.SetTrigger("JumpAction1");
 
+        }
 
 
         transform.Translate(Vector3.right*direction*moveSpeed*Time.deltaTime);
