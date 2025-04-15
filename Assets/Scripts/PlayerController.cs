@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
 
+    public float invincibilityDuration = 15f;     //무적시간
+    private bool isInvincible = false;
+
     private Rigidbody2D rb;
     private bool isGrounded;
 
@@ -63,12 +66,32 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Respawn"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (!isInvincible)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+              // 무적 상태일 땐 씬 리셋 안 함
+        }
+        else if (collision.CompareTag("InvincibilityItem"))
+        {
+            Destroy(collision.gameObject); // 아이템 제거
+            StartCoroutine(ActivateInvincibility());
         }
 
-        if (collision.CompareTag("Finish"))
+            if (collision.CompareTag("Finish"))
         {
             collision.GetComponent<LevelObject>().MoveToNextLevel();
         }
+
+      
+        
     }
+
+    private System.Collections.IEnumerator ActivateInvincibility()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibilityDuration);
+        isInvincible = false;
+    }
+
 }
