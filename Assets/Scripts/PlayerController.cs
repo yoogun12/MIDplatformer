@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,15 +10,23 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
 
-    public float invincibilityDuration = 15f;     //무적시간
+    private SpriteRenderer[] spriteRenderers;            //무적아이템 노란색 변수
+    private Color originalColor;
+
+    public float invincibilityDuration = 10f;     //무적시간
     private bool isInvincible = false;
 
     private Rigidbody2D rb;
     private bool isGrounded;
 
-    private void Awake()
+    public TextMeshProUGUI invincibilityTimeText;
+
+    private void Awake()    
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();            //무적아이템 노란색 변수
+        if (spriteRenderers.Length > 0)
+            originalColor = spriteRenderers[0].color;
     }
     private void Update()
     {
@@ -93,7 +102,30 @@ public class PlayerController : MonoBehaviour
     private System.Collections.IEnumerator ActivateInvincibility()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(invincibilityDuration);
+
+        // 모든 파츠에 반투명 노란색 적용
+        foreach (var sr in spriteRenderers)
+        {
+            sr.color = new Color(1f, 1f, 0f, 0.5f);
+        }
+
+        // 무적 시간 표시
+        float remainingTime = invincibilityDuration;
+        while (remainingTime > 0)
+        {
+            invincibilityTimeText.text = "덫 무적 시간: " + Mathf.Ceil(remainingTime).ToString() + "s";
+            remainingTime -= Time.deltaTime;
+            yield return null;  // 한 프레임 기다리기
+        }
+
+        invincibilityTimeText.text = "";  // 시간이 끝나면 텍스트 비우기
+
+        // 원래 색으로 복원
+        foreach (var sr in spriteRenderers)
+        {
+            sr.color = originalColor;
+        }
+
         isInvincible = false;
     }
 
