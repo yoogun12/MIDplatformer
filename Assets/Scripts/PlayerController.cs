@@ -16,6 +16,11 @@ public class PlayerController : MonoBehaviour
     public float invincibilityDuration = 10f;     //무적시간
     private bool isInvincible = false;
 
+    public float speedBoostMultiplier = 2f; // 속도 배수 (예: 2배)
+    public float speedBoostDuration = 5f;   // 지속 시간
+
+    private bool isSpeedBoosted = false;
+
     private Rigidbody2D rb;
     private bool isGrounded;
 
@@ -94,9 +99,19 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Enemy"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            if (!isInvincible)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
-        
+
+        else if (collision.CompareTag("SpeedItem"))
+        {
+            Destroy(collision.gameObject);
+            StartCoroutine(ActivateSpeedBoost());
+        }
+
     }
 
     private System.Collections.IEnumerator ActivateInvincibility()
@@ -127,6 +142,28 @@ public class PlayerController : MonoBehaviour
         }
 
         isInvincible = false;
+    }
+
+        private System.Collections.IEnumerator ActivateSpeedBoost()
+    { 
+        if (isSpeedBoosted) yield break; // 중복 방지
+
+        isSpeedBoosted = true;
+        moveSpeed *= speedBoostMultiplier;
+
+        // 속도 증가 시간동안 대기
+        float speedRemainingTime = speedBoostDuration;
+        while (speedRemainingTime > 0)
+        {
+            invincibilityTimeText.text = $"속도 업: {Mathf.Ceil(speedRemainingTime)}s";
+            speedRemainingTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        moveSpeed /= speedBoostMultiplier;
+        invincibilityTimeText.text = "";
+        isSpeedBoosted = false;
+
     }
 
 }
