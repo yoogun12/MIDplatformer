@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
         float remainingTime = invincibilityDuration;
         while (remainingTime > 0)
         {
-            invincibilityTimeText.text = "덫 무적 시간: " + Mathf.Ceil(remainingTime).ToString() + "s";
+            invincibilityTimeText.text = "무적 시간: " + Mathf.Ceil(remainingTime).ToString() + "s";
             remainingTime -= Time.deltaTime;
             yield return null;  // 한 프레임 기다리기
         }
