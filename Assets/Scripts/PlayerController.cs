@@ -21,6 +21,11 @@ public class PlayerController : MonoBehaviour
 
     private bool isSpeedBoosted = false;
 
+    public float jumpBoostMultiplier = 1.5f;   // 점프력 몇 배 증가
+    public float jumpBoostDuration = 5f;       // 점프력 증가 지속 시간
+
+    private bool isJumpBoosted = false;
+
     private Rigidbody2D rb;
     private bool isGrounded;
 
@@ -112,6 +117,12 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ActivateSpeedBoost());
         }
 
+        else if (collision.CompareTag("JumpItem"))
+        {
+            Destroy(collision.gameObject);
+            StartCoroutine(ActivateJumpBoost());
+        }
+
     }
 
     private System.Collections.IEnumerator ActivateInvincibility()
@@ -164,6 +175,26 @@ public class PlayerController : MonoBehaviour
         invincibilityTimeText.text = "";
         isSpeedBoosted = false;
 
+    }
+
+    private System.Collections.IEnumerator ActivateJumpBoost()
+    {
+        if (isJumpBoosted) yield break; // 중복 방지
+
+        isJumpBoosted = true;
+        jumpForce *= jumpBoostMultiplier;
+
+        float jumpRemainingTime = jumpBoostDuration;
+        while (jumpRemainingTime > 0)
+        {
+            invincibilityTimeText.text = $"점프 업: {Mathf.Ceil(jumpRemainingTime)}s";
+            jumpRemainingTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        jumpForce /= jumpBoostMultiplier;
+        invincibilityTimeText.text = "";
+        isJumpBoosted = false;
     }
 
 }
