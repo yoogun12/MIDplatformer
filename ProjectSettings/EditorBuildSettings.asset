@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 41c3a0de7aad83942a55c5896557631a
   - enabled: 1
-    path: Assets/Scenes/Story.unity
+    path: Assets/Scenes/Story2.unity
     guid: 983aebe5c8f81ad4b813141ffa3a01ab
   - enabled: 1
     path: Assets/Scenes/Stage1.unity
@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage5.unity
     guid: 19ca58747a4482e418101dd9a44c3da2
   - enabled: 1
-    path: Assets/Scenes/Story2.unity
+    path: Assets/Scenes/Story.unity
     guid: 5c097798774c4ac4684d2f4f62343bde
   - enabled: 1
     path: Assets/Scenes/End.unity
