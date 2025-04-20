@@ -22,6 +22,12 @@ public class EnemyTraceController : MonoBehaviour
         if (direction.magnitude > traceDistance)
             return;
 
+        // 좌우 방향에 따라 반전
+        if (direction.x > 0.1f)
+            transform.localScale = new Vector3(1f, 1f, 1f);     // 오른쪽
+        else if (direction.x < -0.1f)
+            transform.localScale = new Vector3(-1f, 1f, 1f);    // 왼쪽
+
         Vector2 directionNormalized = direction.normalized;
 
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, directionNormalized, raycastDistance);
