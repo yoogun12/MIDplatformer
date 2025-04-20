@@ -10,6 +10,7 @@ TagManager:
   - Obstacle
   - SpeedItem
   - JumpItem
+  - Bed
   layers:
   - Default
   - TransparentFX
